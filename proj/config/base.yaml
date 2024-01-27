@@ -1,0 +1,39 @@
+defaults:
+  # if _self_ is the first entry, compositions will overwrite this config
+  # if _self_ is the last entry, this config will overwrite compositions (default)
+  # https://hydra.cc/docs/1.3/upgrades/1.0_to_1.1/default_composition_order/
+  - _self_
+
+name: base
+device: 'cuda'
+wandb: False
+image_size: 64
+batch_size: 16
+
+model:
+  _target_: proj.model.my_model.MyModel
+  image_size: ${image_size}
+
+optimizer:
+  _target_: torch.optim.Adam
+  lr: 1e-4
+
+scheduler:
+  _target_: torch.optim.lr_scheduler.cosine_annealing.CosineAnnealingLR
+  T_max: 100
+
+criterion:
+  _target_: torch.nn.MSELoss
+
+# dataset:
+#   _target_: skills.dataloading.datasetloader
+
+# variables we can access in our code
+job_name: 'results'
+# job_name: ${hydra:job.name}
+config_name: ${hydra:job.config_name}
+# Stores the command line arguments overrides
+override_dirname: ${hydra:job.override_dirname}
+# Decides whether Hydra changes the current working directory 
+# to the output directory for each job
+# hydra.job.chdir: False

@@ -1,0 +1,5 @@
+num_batches: 3
+batch_size: 2
+
+wandb: False
+debug: True
