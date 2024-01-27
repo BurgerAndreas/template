@@ -1,0 +1,28 @@
+#!/bin/sh
+# Node resource configurations
+# https://support.vectorinstitute.ai/Vaughan_slurm_changes
+#SBATCH --job-name=torch_checkpoint_demo
+#SBATCH --mem=16G
+#SBATCH --cpus-per-task=4
+#SBATCH --partition=rtx6000
+#SBATCH --gres=gpu:1
+#SBATCH --qos=normal
+
+# Append is important because otherwise preemption resets the file
+#SBATCH --open-mode=append
+
+echo `date`: Job $SLURM_JOB_ID is allocated resource
+
+# the recommendation is to keep erything that defines the workload itself in a separate script
+bash run_train_slurm.sh
+
+echo `date`: "Job $SLURM_JOB_ID finished running, exit code: $?"
+
+date=$(date '+%Y-%m-%d')
+archive=$HOME/finished_jobs/$date/$SLURM_JOB_ID
+mkdir -p $archive
+
+cp ./$SLURM_JOB_ID.out $archive/job.out
+cp ./$SLURM_JOB_ID.err $archive/job.err
+
+# usage: sbatch launch_job.slrm

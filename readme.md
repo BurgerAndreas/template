@@ -23,3 +23,8 @@ python skills/hydra_launch_training.py
 python skills/hydra_launch_training.py +experiment=debugging
 python skills/hydra_launch_training.py wandb=True model.batch_size=64
 ```
+
+## Slurm usage
+```bash
+sbatch launch_job.slrm
+```
