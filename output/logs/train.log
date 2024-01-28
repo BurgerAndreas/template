@@ -1,0 +1,7 @@
+INFO:root:
+Starting training.
+INFO:root:
+Starting training.
+INFO:root:name_from_config() mname: base, override_names: _batchsize-2
+INFO:root:No checkpoint detected at /home/andreasburger/Code/template/output/checkpoints/base_batchsize-2 
+Starting from initial state.

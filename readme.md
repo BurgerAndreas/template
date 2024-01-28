@@ -13,6 +13,7 @@ pip install --upgrade "jax[cuda11_pip]" -f https://storage.googleapis.com/jax-re
 pip install tensorflow[and-cuda] --index-url https://storage.googleapis.com/tensorflow/linux/gpu/tensorflow-2.15.0-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl
 
 pip install hydra-core hydra-colorlog wandb omegaconf
+pip install tqdm
 
 pip install -e .
 ```

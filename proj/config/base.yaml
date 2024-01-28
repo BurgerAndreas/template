@@ -6,6 +6,7 @@ defaults:
 
 name: base
 device: 'cuda'
+seed: 42
 wandb: False
 image_size: 64
 batch_size: 16

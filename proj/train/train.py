@@ -24,8 +24,8 @@ import logging
 
 def train_loop(cfg: omegaconf.DictConfig):
 
-    log_file = os.path.join('logs', 'train.log')
-    logging.basicConfig(filename=log_file,level=logging.DEBUG)
+    log_file = os.path.join(OUTPUT_DIR, 'logs', 'train.log')
+    logging.basicConfig(filename=log_file, level=logging.DEBUG)
     logging.info('\nStarting training.')
 
     torch.set_default_device(cfg.device)
@@ -93,13 +93,24 @@ def train_loop(cfg: omegaconf.DictConfig):
 
 
 if __name__ == "__main__":
-    with hydra.initialize(version_base=None, config_path="../config", job_name="train"):
+    """Test the training loop."""
+
+    abs_path = os.path.abspath(__file__)
+    abs_path = os.path.dirname(abs_path)
+    abs_path = os.path.join(abs_path, "../config")
+    with hydra.initialize_config_dir(config_dir=abs_path):
+        # cfg = hydra.compose(config_name="vpt")
         cfg = hydra.compose(
-            config_name="base",
+            config_name="base", 
             overrides=[
                 "batch_size=2",
             ],
+            return_hydra_config=True
         )
+        hydra.core.hydra_config.HydraConfig().cfg = cfg
+        omegaconf.OmegaConf.resolve(cfg)
+
         wandb.init(mode="disabled")
         os.environ["WANDB_DISABLED"] = "true"
+        
         train_loop(cfg)
